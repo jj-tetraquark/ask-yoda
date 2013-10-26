@@ -12,12 +12,15 @@ def index():
 
 @app.route('/receive-sms')
 def accept_input():
-  question = Question.new(
-    request.args.get('content', ''),
-    request.args.get('from', '')
-    )
-  print question.message
-  print question.number
+  content = request.args.get('content', '')
+  number = request.args.get('from', '')
+  # debug statements below
+  print("%(content)s from %(number)s." % {"content": content, "number": number})
+  return "%(content)s from %(number)s." % {"content": content, "number": number} 
+  #question = Question.new(
+    #request.args.get('content', ''),
+    #request.args.get('from', '')
+    #)
 
 if __name__ == '__main__':
     app.run(port=8080)
