@@ -8,16 +8,16 @@ yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSea
 
 def yahoo_question_callback(sess, resp):
   response_data = resp.json()
-  print("answer: ")
   #need to deal with the response being empty
+  print('recieved')
   sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
   print(sess.obj.answer)
   yoda_say(sess.obj)
 
   
 def yahoo_ask(text_message):
-  AsyncSession.obj = text_message
   yahoo_session = AsyncSession()
+  yahoo_session.obj = text_message
   question = sanitize_question(text_message) 
   parameters = {"query":question, 
       "search_in":"question",
