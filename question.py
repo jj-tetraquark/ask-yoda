@@ -1,4 +1,5 @@
 from yahoo import yahoo_ask
+from chatterbot import cleverbot_ask
 
 class Question:
   def __init__(self, message, number):
@@ -7,7 +8,10 @@ class Question:
     self.answer = None
 
   def ask(self):
-    yahoo_ask(self)
+    if len(self.message) < 15:
+      cleverbot_ask(self)
+    else:
+      yahoo_ask(self)
 
   def ask_cleverbot(self):
     cleverbot_complete(self)

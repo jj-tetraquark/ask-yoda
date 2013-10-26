@@ -3,7 +3,6 @@ import re
 from question import Question
 from flask import Flask
 from flask import request
-from chatterbot import cleverbot_ask
 
 app = Flask(__name__)
 
@@ -16,10 +15,8 @@ def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
   question = Question(content,number)
-  if len(content) < 15:
-    cleverbot_ask(question)
-  else:
-    question.ask()
+  question.ask()
+
   # debug statements below
   print("%(content)s from %(number)s." % {"content": question.message, "number": question.number})
   return "%(content)s from %(number)s." % {"content": question.message, "number": question.number} 
