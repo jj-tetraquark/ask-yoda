@@ -16,7 +16,7 @@ def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
   question = Question(content,number)
-  if length(content) < 15:
+  if len(content) < 15:
     cleverbot_ask(question)
   else:
     question.ask()
