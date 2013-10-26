@@ -1,0 +1,1 @@
+web: gunicorn ask-yoda:app
