@@ -1,5 +1,4 @@
 from requests_futures.sessions import FuturesSession
-from chatterbot import cleverbot_ask
 from dispatch import deliver
 from requests_futures_ext import AsyncSession
 import datetime
@@ -16,11 +15,8 @@ def yoda_say(question):
   session = AsyncSession()
   session.obj = question
   # covers cases of timeout or no response from Yahoo Answers
-  if len(question.answer) < 1:
-    cleverbot_ask(question)
-  else:
-    parameters = {"sentence":question.answer}
-    heads = {'X-Mashape-Authorization':mashape_key}
-    call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
+  parameters = {"sentence":question.answer}
+  heads = {'X-Mashape-Authorization':mashape_key}
+  call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
 
 #yoda_say("Where is the secret Rebel Base?")

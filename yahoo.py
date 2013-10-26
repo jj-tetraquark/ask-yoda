@@ -2,6 +2,8 @@ import re
 from requests_futures_ext import AsyncSession
 from pprint import pprint # remove this later
 from yodasay import yoda_say
+from chatterbot import cleverbot_ask
+
 
 yahoo_api_key = "dj0yJmk9SGRNZ3NLVWFNN0hWJmQ9WVdrOVdqWm9ka2RoTXpBbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD00Mw--"
 yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSearch"
@@ -9,10 +11,13 @@ yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSea
 def yahoo_question_callback(sess, resp):
   response_data = resp.json()
   #need to deal with the response being empty
-  print('recieved')
+  print('received')
   sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
   print(sess.obj.answer)
-  yoda_say(sess.obj)
+  if len(sess.obj.answer) < 1:
+    cleverbot_ask(sess.obj)
+  else:
+    yoda_say(sess.obj)
 
   
 def yahoo_ask(text_message):
