@@ -1,1 +1,1 @@
-web: gunicorn ask-yoda:app
+web: gunicorn ask_yoda:app
