@@ -8,7 +8,7 @@ class Question:
     self.answer = None
 
   def ask(self):
-    if len(self.message) < 15:
+    if len(self.message) < 22:
       cleverbot_ask(self)
     else:
       yahoo_ask(self)
