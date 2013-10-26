@@ -15,6 +15,7 @@ def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
   question = Question(content,number)
+  question.ask()
   # debug statements below
   print("%(content)s from %(number)s." % {"content": question.message, "number": question.number})
   return "%(content)s from %(number)s." % {"content": question.message, "number": question.number} 
