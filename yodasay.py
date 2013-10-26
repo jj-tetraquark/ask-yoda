@@ -12,14 +12,6 @@ def yoda_handler(sess,resp):
   print "%(response)s delivered at %(time)s" % {"response":resp.text, "time":str(datetime.datetime.now())}
   deliver(resp.text,question.number)
 
-def cleverbot_complete(question):
-  cb_message = cleverbot_ponder(question.message)
-  session = AsyncSession()
-  session.obj = question
-  parameters = {"sentence":cb_message}
-  heads = {'X-Mashape-Authorization':mashape_key}
-  call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
-
 def yoda_say(question):
   session = AsyncSession()
   session.obj = question
