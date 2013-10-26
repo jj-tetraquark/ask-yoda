@@ -8,3 +8,6 @@ class Question:
 
   def ask(self):
     yahoo_ask(self)
+
+  def ask_cleverbot(self):
+    cleverbot_complete(self)

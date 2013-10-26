@@ -1,20 +1,30 @@
 from requests_futures.sessions import FuturesSession
 from chatterbot import cleverbot_ponder
 from dispatch import deliver
+from requests_futures_ext import AsyncSession
 import datetime
 
-api = "https://yoda.p.mashape.com/yoda"
-key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
+mashape_api = "https://yoda.p.mashape.com/yoda"
+mashape_key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
 
-def yoda_handler(sess,resp,question):
+def yoda_handler(sess,resp):
+  question = sess.obj
   print "%(response)s delivered at %(time)s" % {"response":resp.text, "time":str(datetime.datetime.now())}
   deliver(resp.text,question.number)
 
-def yoda_say(question):
+def cleverbot_complete(question):
   cb_message = cleverbot_ponder(question.message)
-  session = FuturesSession()
+  session = AsyncSession()
+  session.obj = question
   parameters = {"sentence":cb_message}
-  heads = {'X-Mashape-Authorization':key}
-  call = session.get(api, params=parameters, headers=heads, background_callback=yoda_handler)
+  heads = {'X-Mashape-Authorization':mashape_key}
+  call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
+
+def yoda_say(question):
+  session = AsyncSession()
+  session.obj = question
+  parameters = {"sentence":question.answer}
+  heads = {'X-Mashape-Authorization':mashape_key}
+  call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
 
 #yoda_say("Where is the secret Rebel Base?")
