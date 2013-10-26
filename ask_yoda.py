@@ -1,6 +1,6 @@
 import os
 import re
-import question
+from question import Question
 from flask import Flask
 from flask import request
 
@@ -14,13 +14,10 @@ def index():
 def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
+  question = Question(content,number)
   # debug statements below
-  print("%(content)s from %(number)s." % {"content": content, "number": number})
-  return "%(content)s from %(number)s." % {"content": content, "number": number} 
-  #question = Question.new(
-    #request.args.get('content', ''),
-    #request.args.get('from', '')
-    #)
+  print("%(content)s from %(number)s." % {"content": question.message, "number": question.number})
+  return "%(content)s from %(number)s." % {"content": question.message, "number": question.number} 
 
 if __name__ == '__main__':
     app.run(port=8080)
