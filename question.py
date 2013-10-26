@@ -1,7 +1,7 @@
 from yahoo import yahoo_ask
 
 class Question:
-  answer = "default answer this is"
+  answer = None
 
   def __init__(self, message, number):
     self.message = message
