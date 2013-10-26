@@ -18,8 +18,9 @@ def yoda_say(question):
   # covers cases of timeout or no response from Yahoo Answers
   if len(question.answer) < 1:
     cleverbot_ask(question)
-  parameters = {"sentence":question.answer}
-  heads = {'X-Mashape-Authorization':mashape_key}
-  call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
+  else:
+    parameters = {"sentence":question.answer}
+    heads = {'X-Mashape-Authorization':mashape_key}
+    call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
 
 #yoda_say("Where is the secret Rebel Base?")

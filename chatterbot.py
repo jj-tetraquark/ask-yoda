@@ -1,4 +1,5 @@
 from chatterbotapi import ChatterBotFactory, ChatterBotType
+from yodasay import yoda_say
 
 factory = ChatterBotFactory()
 
@@ -12,6 +13,9 @@ def cleverbot_ponder(message):
 def cleverbot_ask(text_message):
   print "CleverBot used to answer question from %(sender)s." % {"sender":text_message.number}
   text_message.answer = cleverbot_ponder(text_message.message)
+  yodasay(text_message)
+  
+  
   
 
 

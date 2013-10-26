@@ -10,7 +10,7 @@ def deliver(text,number):
       )
   response = api.send(message)
   if response.success:
-    print ("Delivered to number %(number)s, response id: %(response)s" % {"number": number, "response":response.id})
+    print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
   else:
     print (response.error_code)
     print (response.error_description)
