@@ -1,6 +1,7 @@
 import re
 from requests_futures_ext import AsyncSession
 from pprint import pprint # remove this later
+from yodasay import yoda_say
 
 yahoo_api_key = "dj0yJmk9SGRNZ3NLVWFNN0hWJmQ9WVdrOVdqWm9ka2RoTXpBbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD00Mw--"
 yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSearch"
@@ -11,6 +12,8 @@ def yahoo_question_callback(sess, resp):
   #need to deal with the response being empty
   sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
   print(sess.obj.answer)
+  yoda_say(sess.obj)
+
   
 def yahoo_ask(text_message):
   AsyncSession.obj = text_message
