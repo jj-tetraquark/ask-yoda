@@ -33,5 +33,6 @@ def yahoo_ask(text_message):
 
 def sanitize_question(message):
   sanitized_message = re.sub(r'\?', '', message.message)
+  sanitized_message = re.sub(r"\"|\'", '', sanitized_message)
   sanitized_message = sanitized_message.replace(' ', '+')
   return sanitized_message
