@@ -8,7 +8,6 @@ yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSea
 
 def yahoo_question_callback(sess, resp):
   response_data = resp.json()
-  #need to deal with the response being empty
   print('recieved')
   sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
   print(sess.obj.answer)
