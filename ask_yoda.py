@@ -1,10 +1,15 @@
 import os
 import re
+from dispatch import redis
 from question import Question
 from flask import Flask
 from flask import request
 
 app = Flask(__name__)
+
+def redis_printer():
+  yoda_replies = lrange(redis, 0, 99)
+  return yoda_replies
 
 @app.route('/')
 def index():
@@ -103,8 +108,8 @@ def index():
           "................................................................................................................................................................................................................................................................................................................................<br>"
           "................................................................................................................................................................................................................................................................................................................................<br>"
           "................................................................................................................................................................................................................................................................................................................................</p>"
-          "<p style='text-align:center;'>Made by @jonnyjdark &amp; @hipsters_unite in Manchester, UK.<br><br><audio loop='loop' autoplay='false' controls='controls'><source src=\"http://cprouvost.free.fr/fun/generiques/--%20Film%20--/Film%20-%20Star%20Wars%20Episode%201%20%28Duel%20Of%20The%20Fates%29.mp3\" /></audio></p>"
-          "</body></html>")
+          "<p style='text-align:center;'>Made by @jonnyjdark &amp; @hipsters_unite in Manchester, UK.<br><br><audio loop='loop' autoplay='false' controls='controls'><source src=\"http://cprouvost.free.fr/fun/generiques/--%20Film%20--/Film%20-%20Star%20Wars%20Episode%201%20%28Duel%20Of%20The%20Fates%29.mp3\" /></audio><br><br>%(redis_printer)s</p>" 
+          "</body></html>" % {"redis_printer":redis_printer()})
   return hello
 
 @app.route('/receive-sms')

@@ -19,7 +19,7 @@ def deliver(question):
     try:
       redis_key = response.id
       print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
-      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s" % {"question": question.message, "answer": text}
+      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s<br><br>" % {"question": question.message, "answer": text}
       redis.set(redis_key, q_and_a)
       redis_value = redis.get(redis_key)
       print ("Redis saved value: %(val)s" % {"val":redis_value})
