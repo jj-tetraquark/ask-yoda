@@ -11,11 +11,14 @@ def deliver(text,number):
       )
   response = api.send(message)
   if response.success:
-    redis_key = number
-    print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
-    redis.set(redis_key, text)
-    redis_value = redis.get(redis_key)
-    print ("Redis saved value: %(val)s" % {"val":redis_value})
+    try:
+      redis_key = number
+      print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
+      redis.set(redis_key, text)
+      redis_value = redis.get(redis_key)
+      print ("Redis saved value: %(val)s" % {"val":redis_value})
+    except Exception as e:
+      print("Exception " + e.__class__.__name__)
   else:
     print (response.error_code)
     print (response.error_description)
