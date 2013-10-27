@@ -21,8 +21,8 @@ def deliver(question):
       redis_key = response.id
       print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
       xss_safe_question = str(utils.escape(question.message))
-      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s" % {"question": xss_safe_question, "answer": text}
       # write to database
+      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s<br><br>" % {"question": xss_safe_question, "answer": text}
       redis.set(redis_key, q_and_a)
       redis_value = redis.get(redis_key)
       print ("Redis saved value: %(val)s" % {"val":redis_value})

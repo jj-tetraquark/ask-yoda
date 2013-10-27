@@ -10,7 +10,7 @@ mashape_key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
 def yoda_handler(sess,resp):
   question = sess.obj
   question.answer = re.sub(r'(?i)cleverbot', r"Yoda", resp.text)
-  print "%(response)s delivered at %(time)s" % {"response":response, "time":str(datetime.datetime.now())}
+  print "%(response)s delivered at %(time)s" % {"response":question.answer, "time":str(datetime.datetime.now())}
   deliver(question)
 
 def yoda_say(question):
@@ -23,12 +23,12 @@ def yoda_say(question):
   call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
 
 def correct_textspeak(text):
-  text = re.sub(r'(?i)(?:dont\s)|(?:\sdont\s)|(?:\sdont)', r" don't ", text)
-  text = re.sub(r'(?i)(?:hasnt\s)|(?:\shasnt\s)|(?:\shasnt)', r" hasn't ", text)
-  text = re.sub(r'(?i)(?:youre\s)|(?:\syoure\s)|(?:\syoure)', r" you're ", text)
-  text = re.sub(r'(?i)(?:havent\s)|(?:\shavent\s)|(?:\shavent)', r" haven't ", text)
-  text = re.sub(r'(?i)(?:ur\s)(?:\sur\s)|(?:\sur)', r" your ", text)
-  text = re.sub(r'(?i)(?:u\s)(?:\su\s)|(?:\su)', r" you ", text)  
+  text = re.sub(r'(?i)(?:\bdont)', r"don't", text)
+  text = re.sub(r'(?i)(?:\bhasnt)', r"hasn't", text)
+  text = re.sub(r'(?i)(?:\byoure)', r"you're", text)
+  text = re.sub(r'(?i)(?:\bhavent)', r"haven't", text)
+  text = re.sub(r'(?i)(?:\bur)', r"your", text)
+  text = re.sub(r'(?i)(?:\bu)', r"you", text)  
   return text
 
 def add_fullstop(text):

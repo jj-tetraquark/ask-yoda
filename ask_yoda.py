@@ -1,14 +1,21 @@
 import os
 import re
+from dispatch import redis
 from question import Question
 from flask import Flask
 from flask import request
 
 app = Flask(__name__)
 
+def redis_printer():
+  yoda_keys = redis.keys("*_*")
+  yoda_replies = [redis.get(key) for key in yoda_keys]
+  yoda_replies = "".join(yoda_replies)
+  return yoda_replies
+
 @app.route('/')
 def index():
-  hello = ("<!DOCTYPE html><html style='background:#333;'><body style='font-family:courier, sans-serif;color:#FDFDFD;'><h1 style='font-size:2em;width:80%;margin:0 auto;text-align:center;'>Welcome to Ask Yoda. Seem to be using a browser you are. Text us, you must.</h1><h2 style='font-size:1.4em;text-align:center;border-bottom:1px solid #FDFDFD;width:72.5%;margin:0 auto;padding-bottom:10px;margin-bottom:10px;'>&rarr; &plus;44 7860 033 028</h2>"
+  hello = ("<!DOCTYPE html><html style='background:#333;'><body style='font-family:courier, sans-serif;color:#FDFDFD;text-align:center;'><h1 style='font-size:2em;width:80%;margin:0 auto;text-align:center;'>Welcome to Ask Yoda. Seem to be using a browser you are. Text us, you must.</h1><h2 style='font-size:1.4em;text-align:center;border-bottom:1px solid #FDFDFD;width:72.5%;margin:0 auto;padding-bottom:10px;margin-bottom:10px;'>&rarr; &plus;44 7860 033 028</h2>"
           "<p style='font-size:4.8px;margin:0 auto;text-align:center;'>"
           "................................................................................................................................................................................................................................................................................................................................<br>"
           "................................................................................................................................................................................................................................................................................................................................<br>"
@@ -103,14 +110,18 @@ def index():
           "................................................................................................................................................................................................................................................................................................................................<br>"
           "................................................................................................................................................................................................................................................................................................................................<br>"
           "................................................................................................................................................................................................................................................................................................................................</p>"
-          "<p style='text-align:center;'>Made by @jonnyjdark &amp; @hipsters_unite in Manchester, UK.<br><br><audio loop='loop' controls='controls'><source src=\"http://cprouvost.free.fr/fun/generiques/--%20Film%20--/Film%20-%20Star%20Wars%20Episode%201%20%28Duel%20Of%20The%20Fates%29.mp3\" /></audio></p>"
-          "</body></html>")
+          "<p style='text-align:center;'>Made by @jonnyjdark &amp; @hipsters_unite in Manchester, UK.<br><br><audio loop='loop' controls='controls'><source src=\"http://cprouvost.free.fr/fun/generiques/--%20Film%20--/Film%20-%20Star%20Wars%20Episode%201%20%28Duel%20Of%20The%20Fates%29.mp3\" /></audio><br><br><h2 style='font-size:1.4em;text-align:center;border-bottom:1px solid #FDFDFD;width:72.5%;margin:0 auto;padding-bottom:10px;margin-bottom:10px;'>Yoda's past wisdom.</h2>")
+  hello += redis_printer()
+  hello += "</p></body></html>"
   return hello
 
 @app.route('/receive-sms')
 def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
+  if url_check(content):
+    print "This number is a spammer: %(number)s" % {"number": number}
+    return
   question = Question(content,number)
   question.ask()
 
@@ -120,3 +131,8 @@ def accept_input():
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True)
+
+def url_check(content):
+  check = re.findall(r"http:\/\/.*", content)
+  if len(check) > 0:
+    return True
