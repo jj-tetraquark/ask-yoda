@@ -122,6 +122,9 @@ def accept_input():
   if url_check(content):
     print "This number is a spammer: %(number)s" % {"number": number}
     return
+  if number == '447860033028':
+    #no infinite loop 4 u
+    return
   question = Question(content,number)
   question.ask()
 
