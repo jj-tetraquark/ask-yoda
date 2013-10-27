@@ -10,7 +10,7 @@ mashape_key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
 def yoda_handler(sess,resp):
   question = sess.obj
   question.answer = re.sub(r'(?i)cleverbot', r"Yoda", resp.text)
-  print "%(response)s delivered at %(time)s" % {"response":response, "time":str(datetime.datetime.now())}
+  print "%(response)s delivered at %(time)s" % {"response":question.answer, "time":str(datetime.datetime.now())}
   deliver(question)
 
 def yoda_say(question):
