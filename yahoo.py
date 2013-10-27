@@ -11,12 +11,14 @@ yahoo_question_url = "http://answers.yahooapis.com/AnswersService/V1/questionSea
 def yahoo_question_callback(sess, resp):
   response_data = resp.json()
   print('recieved')
-  sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
-  print(sess.obj.answer)
-  if len(sess.obj.answer) < 1:
-    cleverbot_ask(sess.obj)
-  else:
+  try:
+    sess.obj.answer = response_data["all"]["questions"][0]["ChosenAnswer"]
+    print(sess.obj.answer)
     yoda_say(sess.obj)
+  except: #Gotta catch them all!
+    print('Yahoo, you have failed me for the last time. Cleverbot, I choose you!')
+    cleverbot_ask(sess.obj)
+
 
   
 def yahoo_ask(text_message):
