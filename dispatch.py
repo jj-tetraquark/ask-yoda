@@ -1,4 +1,5 @@
 from clockwork import clockwork
+from jinja2 import utils
 import redis, os
 
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
@@ -19,7 +20,9 @@ def deliver(question):
     try:
       redis_key = response.id
       print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
-      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s<br><br>" % {"question": question.message, "answer": text}
+      xss_safe_question = str(utils.escape(question.message))
+      # write to database
+      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s<br><br>" % {"question": xss_safe_question, "answer": text}
       redis.set(redis_key, q_and_a)
       redis_value = redis.get(redis_key)
       print ("Redis saved value: %(val)s" % {"val":redis_value})
