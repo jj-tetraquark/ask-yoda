@@ -6,7 +6,9 @@ redis = redis.from_url(redis_url)
  
 api = clockwork.API('143f1e125a46cca4253316cb8600e1c0606b8217')
 
-def deliver(text,number):
+def deliver(question):
+  text = question.answer
+  number = question.number
   message = clockwork.SMS(
       to = number,
       message = truncate_text(text),
@@ -15,9 +17,10 @@ def deliver(text,number):
   response = api.send(message)
   if response.success:
     try:
-      redis_key = number
+      redis_key = response.id
       print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
-      redis.set(redis_key, text)
+      q_and_a = "Q: %(question)s <br>Yoda: %(answer)s" % {"question": question.message, "answer": text}
+      redis.set(redis_key, q_and_a)
       redis_value = redis.get(redis_key)
       print ("Redis saved value: %(val)s" % {"val":redis_value})
     except Exception as e:
