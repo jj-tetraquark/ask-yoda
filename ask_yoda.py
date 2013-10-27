@@ -133,6 +133,6 @@ if __name__ == '__main__':
     app.run(port=8080, debug=True)
 
 def url_check(content):
-  check = re.findall(r"http://.*", content)
+  check = re.findall(r"(?i)http://.*", content)
   if len(check) > 0:
     return True
