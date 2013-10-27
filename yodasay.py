@@ -14,9 +14,24 @@ def yoda_handler(sess,resp):
 def yoda_say(question):
   session = AsyncSession()
   session.obj = question
-  # covers cases of timeout or no response from Yahoo Answers
-  parameters = {"sentence":question.answer}
+  answer = correct_textspeak(question.answer)
+  answer = add_fullstop(answer)
+  parameters = {"sentence":answer}
   heads = {'X-Mashape-Authorization':mashape_key}
   call = session.get(mashape_api, params=parameters, headers=heads, background_callback=yoda_handler)
+
+def correct_textspeak(text):
+  text = re.sub(r'(?i)(?:dont\s)|(?:\sdont\s)|(?:\sdont)', r" don't ", text)
+  text = re.sub(r'(?i)(?:hasnt\s)|(?:\shasnt\s)|(?:\shasnt)', r" hasn't ", text)
+  text = re.sub(r'(?i)(?:youre\s)|(?:\syoure\s)|(?:\syoure)', r" you're ", text)
+  text = re.sub(r'(?i)(?:havent\s)|(?:\shavent\s)|(?:\shavent)', r" haven't ", text)
+  text = re.sub(r'(?i)(?:ur\s)(?:\sur\s)|(?:\sur)', r" your ", text)
+  text = re.sub(r'(?i)(?:u\s)(?:\su\s)|(?:\su)', r" you ", text)  
+  return text
+
+def add_fullstop(text):
+  if text[-1] != ".":
+    text = text + "."
+  return text
 
 #yoda_say("Where is the secret Rebel Base?")
