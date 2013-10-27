@@ -28,7 +28,7 @@ def correct_textspeak(text):
   text = re.sub(r'(?i)(?:\byoure)', r"you're", text)
   text = re.sub(r'(?i)(?:\bhavent)', r"haven't", text)
   text = re.sub(r'(?i)(?:\bur)', r"your", text)
-  text = re.sub(r'(?i)(?:\bu)', r"you", text)  
+  text = re.sub(r'(?i)(?:\bu\s)', r"you ", text)  
   return text
 
 def add_fullstop(text):
