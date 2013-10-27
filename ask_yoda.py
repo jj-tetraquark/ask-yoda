@@ -22,4 +22,4 @@ def accept_input():
   return "%(content)s from %(number)s." % {"content": question.message, "number": question.number} 
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=8080, debug=True)
