@@ -32,7 +32,7 @@ def correct_textspeak(text):
   return text
 
 def add_fullstop(text):
-  if text[:-1] != ".":
+  if text[:-1] != "." && text[:-1] != '?' && text[:-1] != '!':
     text = text + "."
   return text
 
