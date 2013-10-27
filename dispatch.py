@@ -1,5 +1,5 @@
 from clockwork import clockwork
-from ask_yoda import redis
+from ask_yoda import redisdb
  
 api = clockwork.API('143f1e125a46cca4253316cb8600e1c0606b8217')
 
@@ -14,8 +14,8 @@ def deliver(text,number):
     try:
       redis_key = number
       print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
-      redis.set(redis_key, text)
-      redis_value = redis.get(redis_key)
+      redisdb.set(redis_key, text)
+      redis_value = redisdb.get(redis_key)
       print ("Redis saved value: %(val)s" % {"val":redis_value})
     except Exception as e:
       print("Exception " + e.__class__.__name__)
