@@ -2,6 +2,7 @@ from requests_futures.sessions import FuturesSession
 from dispatch import deliver
 from requests_futures_ext import AsyncSession
 import datetime
+import re
 
 mashape_api = "https://yoda.p.mashape.com/yoda"
 mashape_key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
