@@ -119,6 +119,7 @@ def index():
 def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
+  # check for malicious URLs
   if url_check(content):
     print "This number is a spammer: %(number)s" % {"number": number}
     return
