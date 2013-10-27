@@ -8,7 +8,7 @@ from flask import request
 app = Flask(__name__)
 
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
-redisdb = redis.from_url(redis_url)
+redis = redis.from_url(redis_url)
 
 @app.route('/')
 def index():
