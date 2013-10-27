@@ -5,7 +5,7 @@ api = clockwork.API('143f1e125a46cca4253316cb8600e1c0606b8217')
 def deliver(text,number):
   message = clockwork.SMS(
       to = number,
-      message = text,
+      message = truncate_text(text),
       from_name = 'Yoda'
       )
   response = api.send(message)
@@ -14,3 +14,13 @@ def deliver(text,number):
   else:
     print (response.error_code)
     print (response.error_description)
+
+def truncate_text(text):
+  #459 is the max text length
+  max = 459
+  if len(text) > max:
+    text = text[:max]
+    last_full_stop = text.rfind(".") 
+    if(last_full_stop > 0):
+      text = text[:last_full_stop+1]
+  return text
