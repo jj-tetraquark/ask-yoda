@@ -14,7 +14,8 @@ def deliver(text,number):
     redis_key = response.id
     print ("Delivered %(message)s to number %(number)s, response id: %(response)s" % {"message":text, "number": number, "response":response.id})
     redis.set(redis_key, text)
-    print redis.get(redis_key)
+    redis_value = redis.get(redis_key)
+    print ("Redis saved value: %(val)s" % {"val":redis_value})
   else:
     print (response.error_code)
     print (response.error_description)
