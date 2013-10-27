@@ -19,6 +19,7 @@ def deliver(text,number):
       print ("Redis saved value: %(val)s" % {"val":redis_value})
     except Exception as e:
       print("Exception " + e.__class__.__name__)
+      print(e.args)
   else:
     print (response.error_code)
     print (response.error_description)
