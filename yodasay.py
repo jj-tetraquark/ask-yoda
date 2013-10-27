@@ -9,8 +9,9 @@ mashape_key = "OsmmBOCm2pwcc3497yJf4sv7XHTzZImH"
 
 def yoda_handler(sess,resp):
   question = sess.obj
-  print "%(response)s delivered at %(time)s" % {"response":resp.text, "time":str(datetime.datetime.now())}
-  deliver(resp.text,question.number)
+  response = re.sub(r'(?i)cleverbot', r"Yoda", resp.text)
+  print "%(response)s delivered at %(time)s" % {"response":response, "time":str(datetime.datetime.now())}
+  deliver(response,question.number)
 
 def yoda_say(question):
   session = AsyncSession()
