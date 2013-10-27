@@ -8,7 +8,9 @@ from flask import request
 app = Flask(__name__)
 
 def redis_printer():
-  yoda_replies = lrange(redis, 0, 99)
+  yoda_keys = redis.keys("VE_*")
+  yoda_replies = [redis.get(key) for key in yoda_keys]
+  yoda_replies = "".join(yoda_replies)
   return yoda_replies
 
 @app.route('/')
