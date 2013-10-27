@@ -11,3 +11,4 @@ requests==2.0.1
 requests-futures==0.9.4
 wsgiref==0.1.2
 Clockwork==1.0
+redis==2.8.0
