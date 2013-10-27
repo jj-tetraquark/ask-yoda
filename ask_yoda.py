@@ -8,7 +8,7 @@ from flask import request
 app = Flask(__name__)
 
 def redis_printer():
-  yoda_keys = redis.keys("VE_*")
+  yoda_keys = redis.keys("*_*")
   yoda_replies = [redis.get(key) for key in yoda_keys]
   yoda_replies = "".join(yoda_replies)
   return yoda_replies
@@ -119,6 +119,9 @@ def index():
 def accept_input():
   content = request.args.get('content', '')
   number = request.args.get('from', '')
+  if url_check(content):
+    print "This number is a spammer: %(number)s" % {"number": number}
+    return
   question = Question(content,number)
   question.ask()
 
@@ -128,3 +131,8 @@ def accept_input():
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True)
+
+def url_check(content):
+  check = re.findall(r"http:\/\/.*", content)
+  if len(check) > 0:
+    return True
