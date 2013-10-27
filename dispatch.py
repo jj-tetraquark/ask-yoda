@@ -1,4 +1,8 @@
 from clockwork import clockwork
+import redis
+
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:8080')
+redis = redis.from_url(redis_url)
  
 api = clockwork.API('143f1e125a46cca4253316cb8600e1c0606b8217')
 
